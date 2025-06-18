@@ -100,18 +100,18 @@ impl<'a> HashTable<'a> {
     }
 
     pub fn parse_input(&mut self, input: &'a str) {
-        println!("========================================");
-        println!("           operation sequence           ");
-        println!("========================================");
+        println!("|======================================|");
+        println!("|          operation sequence          |");
+        println!("|======================================|");
         for command in input.split_whitespace() {
             match command.chars().next().unwrap() {
                 'A' | 'a' => {
                     let data_slice = &command[1..];
-                    println!("add: {data_slice} {}", self.add(data_slice));
+                    println!(" add: [{data_slice} {}]", self.add(data_slice));
                 }
                 'D' | 'd' => {
                     let data_slice = &command[1..];
-                    println!("delete: {data_slice} {}", self.delete(data_slice));
+                    println!(" del: [{data_slice} {}]", self.delete(data_slice));
                 }
                 _ => unreachable!("Unhandled operation requested"),
             };
