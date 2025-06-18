@@ -69,21 +69,14 @@ impl<'a> HashTable<'a> {
 
     fn wrap_next_index(&mut self, key: usize) -> Option<&mut HashSlot<'a>> {
         let (left, right) = self.slots.split_at_mut(key);
-        for slot in right {
-            if slot.1 != State::Occupied {
-                return Some(slot);
-            }
-        }
-        for slot in left {
-            if slot.1 != State::Occupied {
-                return Some(slot);
-            }
-        }
-        None
+        right
+            .iter_mut()
+            .chain(left.iter_mut())
+            .find(|slot| slot.1 != State::Occupied)
     }
 
     fn hash(&self, key: &'a str) -> usize {
-        key.chars().last().unwrap() as usize - b'a' as usize
+        key.chars().last().expect("expected a non zero len key") as usize - b'a' as usize
     }
 
     fn add(&mut self, key: &'a str) -> bool {
